@@ -25,14 +25,14 @@
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        fetch('http://localhost:3000/api/count')
+        fetch('https://backend-dbdigital.onrender.com/api/count')
           .then((response) => response.json())
           .then((data) => {
             document.getElementById('count-data').textContent = data.count;
           })
           .catch((error) => console.error(error));
 
-        fetch('http://localhost:3000/api/messages')
+        fetch('https://backend-dbdigital.onrender.com/api/messages')
           .then((response) => response.json())
           .then((data) => {
             const dataLength = data.results;
