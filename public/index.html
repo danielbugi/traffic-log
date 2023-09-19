@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Count and Messages</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="count-container">
+        <h2>Count</h2>
+        <p id="count-data">Loading...</p>
+      </div>
+      <div class="messages-container">
+        <h2>Messages Length</h2>
+        <p id="messages-length">Loading...</p>
+      </div>
+    </div>
+    <div class="messages-list">
+      <h2>Messages</h2>
+      <ul id="messages">
+        <!-- Messages will be added dynamically using JavaScript -->
+      </ul>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        fetch('http://localhost:3000/api/count')
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById('count-data').textContent = data.count;
+          })
+          .catch((error) => console.error(error));
+
+        fetch('http://localhost:3000/api/messages')
+          .then((response) => response.json())
+          .then((data) => {
+            const dataLength = data.results;
+            const msgLength = document.getElementById('messages-length');
+            const msgList = document.getElementById('messages');
+
+            msgLength.innerHTML = dataLength;
+            const messages = data.data.messages;
+            msgList.innerHTML = messages
+              .map((el, i) => {
+                return `<li>
+                         <span>message No: </span><span>${i + 1}<span><br>
+                          <span>message: </span><span>${el.name}<span><br>
+                          <span>email: </span><span>${el.email}<span><br>
+                          <span>message: </span><span>${el.message}<span><br>
+                    </li>
+                    `;
+              })
+              .join('');
+          })
+          .catch((error) => console.error(error));
+      });
+    </script>
+  </body>
+</html>
